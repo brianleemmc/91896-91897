@@ -73,6 +73,7 @@ size_list = ["6pack", "8pack"]
 side_list = ["miso", "tempura", "soy", "wasabi", "xxx"]
 collection_list = ["pickup", "delivery"]
 payment_list = ["cash", "credit"]
+
 # Initialize pay_method and final_cost with default values
 pay_method = ""
 final_cost = 0.0
@@ -133,7 +134,7 @@ if want_instructions == "yes":
     show_instructions()
 
 
-# main sushi type price calculation
+# main sushi type price calculation set from the specific sushi_type list
 
 
 def calc_sushi_price(var_sushi):
@@ -152,11 +153,6 @@ def calc_sushi_price(var_sushi):
 
     return price
 
-
-# what sushi type customers want function
-# using 1 as the num_letters argument in string_checker allows the function to validate end-user input
-# based on the first character of the valid options eg: salmon "s",
-# making it more convenient and efficient for users to make their selection.
 
 print("Please type the the corresponding titles in the brackets next to the options to choose your desired item, "
       "e.g. \"(salmon)\" ")
@@ -190,7 +186,7 @@ quantity = num_check(f"How many {sushi_type} sushi packs do you want: ")
 sushi_cost *= quantity
 print(f"you have selected {quantity} {sushi_type} sushi packs")
 
-# size option function
+# size option function, adding the current sushi_cost +size
 
 size_choice = string_checker("Please choose a size from 6 Pack (6pack) or 8 pack (8pack) ($2 surcharge): ",
                              1, size_list)
@@ -240,7 +236,7 @@ Wasabi (wasabi) $0.50
 if want_sides == "yes":
     sides()
     while which_sides != 'xxx':
-        which_sides = string_checker("Which sides would you like (type in \'xxx\' to quit): ",
+        which_sides = string_checker("Which of the following sides would you like (type in \'xxx\' to quit): ",
                                      1, side_list)
         if which_sides == "miso":
             print("You selected Miso Soup as a side")
@@ -268,9 +264,9 @@ if want_sides == "yes":
 
         elif which_sides == 'xxx':
             if len(temp_sides) > 0:
-                print("No more sides to be added!")
+                print("No more further sides will be added")
             else:
-                print("No Sides will be added then!")
+                print("No sides will be added")
                 temp_sides.append("None")
     pass
 
@@ -284,12 +280,12 @@ PRICES_LIST.append(sushi_cost)
 def want_receipt():
     print("----- YOUR RECEIPT -----")
 
-    print(f"You have purchased {quantity} {sushi_type} sushi")
-    print(f"With the size of {size_choice}")
-    print(f"You have purchased the sides, {temp_sides}")
-    print(f"Collected by {collection_choice}")
-    print(f"You have payed with {pay_method}")
-    print(f"For a final cost of ${final_cost:.2f}")
+    print(f"Purchased: {quantity} {sushi_type} sushi")
+    print(f"Size: {size_choice}")
+    print(f"Sides: {temp_sides}")
+    print(f"Collected By: {collection_choice}")
+    print(f"Payment Method: {pay_method}")
+    print(f"Final cost of: ${final_cost:.2f}")
 
     print("---------------------------------------------------------------------------")
     print("Thank you for eating at Brian's Sushi Shop, Please come again", name)
@@ -340,7 +336,7 @@ while True:
         # instead of assigning 1, using len(min ensures full validation of payment method input through the payment list
         # considering entire words of cash and credit, not just the first letter as both have "c" as there first letter"
 
-        pay_method = string_checker("Would you like to pay in cash or credit (%1.5 fee): ",
+        pay_method = string_checker("Would you like to pay in cash (cash) or credit (credit) (%1.5 fee): ",
                                     len(min(payment_list)), payment_list)
 
         # using the ${:.2f} currency function I can easily manipulate it by getting the total sushi_cost
